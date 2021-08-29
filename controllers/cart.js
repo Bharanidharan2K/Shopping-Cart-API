@@ -24,3 +24,24 @@ export const getCart = (req, res) => {
     })
 
 };
+
+export const createCart = (req, res) => {
+
+    db.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log(`Mysql Connected..`);
+        const id = req.body.id;
+        const products = req.body.product;
+       
+        let sql = "INSERT INTO cart (`id`,`productName`, `productId`, `qty`, `price`) VALUES (?)";
+        var values = [id, products.name, products.id, 1, products.price];
+        connection.query(sql, [values], (err, result) => {
+            connection.release();
+            if (err) throw err;
+            console.log(`Cart added..`);
+            res.send(result);
+
+        })
+    })
+
+};
