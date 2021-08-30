@@ -25,3 +25,21 @@ export const getProduct = (req, res) => {
     })
 
 };
+
+//Get values
+export const getProductById = (req, res) => {
+    db.getConnection((err, connection) =>{
+        if(err) throw err;
+        console.log("MySQL Connected");
+        let sql = "SELECT * FROM products WHERE id = ?";
+        let id = req.params.id;
+        connection.query(sql, id, (err, result) =>{
+            connection.release();
+            if (err) throw err;
+            console.log(result);
+            res.send(result);
+        })
+    })
+
+
+};

@@ -33,8 +33,8 @@ export const createCart = (req, res) => {
         const id = req.body.id;
         const products = req.body.product;
        
-        let sql = "INSERT INTO cart (`id`,`productName`, `productId`, `qty`, `price`) VALUES (?)";
-        var values = [id, products.name, products.id, 1, products.price];
+        let sql = "INSERT INTO cart (`id`,`productName`, `productId`, `qty`, `price`, `imgUrl`) VALUES (?)";
+        var values = [id, products.name, products.id, 1, products.price, products.imgUrl];
         connection.query(sql, [values], (err, result) => {
             connection.release();
             if (err) throw err;
