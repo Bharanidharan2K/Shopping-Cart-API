@@ -30,15 +30,34 @@ export const createCart = (req, res) => {
     db.getConnection((err, connection) => {
         if (err) throw err;
         console.log(`Mysql Connected..`);
-        const id = req.body.id;
-        const products = req.body.product;
-       
-        let sql = "INSERT INTO cart (`id`,`productName`, `productId`, `qty`, `price`, `imgUrl`) VALUES (?)";
-        var values = [id, products.name, products.id, 1, products.price, products.imgUrl];
+        const body = req.body.product;
+        let sql = "INSERT INTO cart (`productName`, `productId`, `qty`, `price`, `imgUrl`) VALUES (?)";
+        var values = [body.productName, body.productId, 1, body.price, body.imgUrl];
         connection.query(sql, [values], (err, result) => {
             connection.release();
             if (err) throw err;
             console.log(`Cart added..`);
+            res.send(result);
+
+        })
+    })
+
+};
+
+//Delete cart Items
+export const deleteCart = (req, res) => {
+
+    db.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log(`Mysql Connected..`);
+
+        const getId = req.params.id;
+        console.log(req.params);
+        let sql = "DELETE FROM cart WHERE id = ?";
+        connection.query(sql, getId, (err, result) => {
+            connection.release();
+            if (err) throw err;
+            console.log(`Cart with id : ${getId} Deleted..`);
             res.send(result);
 
         })

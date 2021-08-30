@@ -31,7 +31,7 @@ export const getProductById = (req, res) => {
     db.getConnection((err, connection) =>{
         if(err) throw err;
         console.log("MySQL Connected");
-        let sql = "SELECT * FROM products WHERE id = ?";
+        let sql = "SELECT * FROM products WHERE productId = ?";
         let id = req.params.id;
         connection.query(sql, id, (err, result) =>{
             connection.release();
