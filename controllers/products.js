@@ -4,7 +4,7 @@ const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'shopping-cart'
+    database: 'shop_cart'
 });
 
 
@@ -14,7 +14,7 @@ export const getProduct = (req, res) => {
     db.getConnection((err, connection) => {
         if (err) throw err;
         console.log(`Mysql Connected..`);
-        let sql = "SELECT * FROM products";
+        let sql = "SELECT * FROM products p JOIN category c ON p.category_id = c.category_id";
         connection.query(sql, (err, result) => {
             connection.release();
             if (err) throw err;
@@ -31,7 +31,7 @@ export const getProductById = (req, res) => {
     db.getConnection((err, connection) =>{
         if(err) throw err;
         console.log("MySQL Connected");
-        let sql = "SELECT * FROM products WHERE productId = ?";
+        let sql = "SELECT * FROM products WHERE product_id = ?";
         let id = req.params.id;
         connection.query(sql, id, (err, result) =>{
             connection.release();
